@@ -8,6 +8,11 @@
 //              Original   - Pedro Bertoleti
 // -------------------------------------------------------------|
 
+///Trabalho MK 2022 - Sistemas Embarcados
+///Eric Ryuta Nakao 10746922
+///Guilherme Henrique Santana Rosa 10873299
+///Rayron Costa e Silva 10820741
+
 ///Links úteis para revisão de termos utilizados durante o programa:
 /// https://www.embarcados.com.br/maquina-de-estado/
 /// https://www.kennethkuhn.com/electronics/debounce.c
