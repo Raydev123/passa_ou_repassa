@@ -9,6 +9,7 @@
 // -------------------------------------------------------------|
 
 ///Links úteis para revisão de termos utilizados durante o programa:
+/// https://www.embarcados.com.br/maquina-de-estado/
 /// https://www.kennethkuhn.com/electronics/debounce.c
 /// https://stackoverflow.com/questions/5256599/what-are-file-descriptors-explained-in-simple-terms
 /// https://pubs.opengroup.org/onlinepubs/9699919799/functions/poll.html
@@ -42,8 +43,10 @@
 //Global variables:
 void (*PointerToFunction)(); // Pointer to the functions (states) of the state machine. 
                              // It points to the function runs in the given time
-int Player1_Points;          // Collects points from Player 1 
-int Player2_Points;          // Collects points from Player 2 
+int Player1_Points;          // Collects points from Player 1 and represents the index of tempo_1
+int Player2_Points;          // Collects points from Player 2 and represents the index of tempo_2;
+int tempo_1[10];             //Armazena[10] o tempo que o jogador 1 demorou para apertar o botão
+int tempo_2[10];             //Armazena[10] o tempo que o jogador 2 demorou para apertar o botão
 
 // debounce integrator
 unsigned int integrator;     // Will range from 0 to the specified MAXIMUM
@@ -158,6 +161,9 @@ void Starting_State(void)
     unsigned int input;       //
     unsigned int output;      
 
+    //Delisga o LED do Start
+    desliga_led(1, Led_Start);
+
     fd = open(get_path("value", Botao_Start), O_RDONLY);
 
     poll(&poll_gpio, 1, -1); // discard first IRQ
@@ -208,43 +214,68 @@ void Starting_State(void)
 
 void Game_Running_State(void)
 {
-    ///Liga o Led de Play e espera pela entrada dos Botao1 e Botao2
-    ///Com o Botao acionado, leva ao proximo estado:
-    ///  PointerToFunction = Player_1_Score_State;
+    /// Liga o Led de Play e espera pela entrada dos Botao1 e Botao2
+    /// Caso o botão tenha sido pressionado antes da largada, indica-se a queimada de largada;
+    /// Com o Botao acionado, leva ao proximo estado:
+    ///     PointerToFunction = Player_X_Score_State;
 
     int fd;
     int pressed; //verifica se o botao foi pressionado pelo pressed = poll();
-    struct pollfd poll_players[2]; //considerando 2 times
+    struct pollfd poll_players[2]; //considerando 2 players
+    clock_t start,diff; //variável para armazenar o tempo que levaram para apertar o botao
+
     poll_players[0].fd = open(get_path("value", Botao1), O_RDONLY);
     poll_players[1].fd = open(get_path("value", Botao2), O_RDONLY);
     poll_players[0].events = POLLIN;
     poll_players[1].events = POLLIN;
   
-    //pressed = poll(poll_players, 2, 1);
-    //if (pressed)
-    //{
-    //    if(poll[0].revents &POLLIN)
-    //    {
-    //        //código de queimou a largada
-     //    }
-    //    else if (poll[1].revents & POLLIN)
-    //    {
-     //        //código de queimou a largada
-    //    }
-    //}
+    pressed = poll(poll_players, 2, 1); //poll rapido para ver a queimada de largada
 
-    desliga_led(0, Led_Start);
+    ///Caso algum dos jogadores tenha pressionado antes do tempo
+    ///o LED do respectivo jogador pisca com uma frequência de 10Hz indicando a queimada de largada
+    ///     retorna para o Starting_State
+    if (pressed)
+    {
+        if(poll[0].revents &POLLIN)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                desliga_led(0, Led1);
+                usleep(100000);
+                desliga_led(1, Led1);
+                usleep(100000);
+            }
+            PointerToFunction = Starting_State;
+        }
+        if (poll[1].revents & POLLIN)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                desliga_led(0, Led2);
+                usleep(100000);
+                desliga_led(1, Led2);
+                usleep(100000);
+            }
+            PointerToFunction = Starting_State;
+        }
+    }
 
-    pressed = poll(poll_players, 2, -1); //-1 mostra a espera até que algum dos botões sejam pressionados
+    desliga_led(0, Led_Start); //Liga o led do Start, indicando OK para os jogadores
+    start = clock();    //Começa a amostragem de tempo
+
+    pressed = poll(poll_players, 2, -1); //"-1" mostra a espera até que algum dos botões sejam pressionados
     if (pressed)
      {
+        diff = 1000 * (clock() - start) / CLOCKS_PER_SEC; //Armazena o tempo, em ms, que levaram para apertar o botao 
         if(poll_players[0].revents & POLLIN)
         {
+            tempo_1[Player1_Points] = (int)diff; //Armazena o tempo do Player_1
             PointerToFunction = Player_1_Score_State;
          }
-        else if (poll_players[1].revents & POLLIN)
+        if (poll_players[1].revents & POLLIN)
         {
-             PointerToFunction = Player_2_Score_State;
+            tempo_2[Player2_Points] = (int)diff; //Armazena o tempo do Player_2
+            PointerToFunction = Player_2_Score_State;
 
         }
     }
@@ -252,23 +283,21 @@ void Game_Running_State(void)
 
 void Player_1_Score_State(void)
 {
-    ///Adiciona ponto ao jogador X, liga o led do jogador X, apaga o led do Play e volta para o estado inicial:
+    ///Adiciona ponto ao jogador X, liga o led do jogador X e volta para o estado inicial:
     ///  PointerToFunction = Starting_State;
 
     Player1_Points++;
     desliga_led(0, Led1);
-    desliga_led(1, Led_Start);
     PointerToFunction = Starting_State;
 }
 
 void Player_2_Score_State(void)
 {
-    ///Adiciona ponto ao jogador X, liga o led do jogador X, apaga o led do Play e volta para o estado inicial:
+    ///Adiciona ponto ao jogador X, liga o led do jogador X e volta para o estado inicial:
     /// PointerToFunction = Starting_State;
 
     Player2_Points++;
     desliga_led(0, Led2);
-    desliga_led(1, Led_Start);
     PointerToFunction = Starting_State;
 }
 
@@ -292,11 +321,6 @@ int main(int argc, char *argv[])
     char aux_int[3]; //Auxiliar que armazena valores de int das portas gpio para string
 
 
-    //Desligar o Led do Start
-    configura_led(Led_Start);
-    desliga_led(1, Led_Start);
-
-
     //Configura o Botao_Start: Checa export,direction=in,edge=rising,fd = value(o fd é usado no poll_gpio.fd);
     configura_botao(Botao_Start);
 
@@ -313,6 +337,8 @@ int main(int argc, char *argv[])
 
     configura_botao(Botao1);
     configura_botao(Botao2);
+    configura_led(Led_Start);
+
 
     while(1)
     {
