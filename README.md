@@ -27,7 +27,7 @@ No presente trabalho, tem-se como objetivo o desenvolvimento de um jogo realizad
 
 ### Descrição da arquitetura
 
-![Image of Architecture](https://github.com/guilh-0453/passa_ou_repassa/blob/main/System%20Architecture.jpg)
+![Image of Architecture](https://github.com/guilh-0453/passa_ou_repassa/blob/main/System_Architecture.jpg)
   1. 3 Entradas - botões a serem pressionados (Início, participante/equipe 1 e participante/equipe 2)
   2. 3 Saídas  - LEDs (Início, participante/equipe 1, participante/equipe 2)
 
