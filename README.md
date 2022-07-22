@@ -33,4 +33,3 @@ No presente trabalho, tem-se como objetivo o desenvolvimento de um jogo realizad
 
 ### State Machine for the Software implementation of the Game
 ![MaquinadeEstado](https://user-images.githubusercontent.com/109768690/180353805-88a5c211-582f-4140-8271-7f50b2dc80a6.png)
-![MaquinadeEstado](https://github.com/guilh-0453/passa_ou_repassa/blob/main/MaquinaDeEstados.jpg)
