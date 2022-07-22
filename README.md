@@ -1,4 +1,4 @@
-Trabalho Escolar 2022 - Sistemas Embarcados
+Trabalho 2022 - Sistemas Embarcados
 # Passa-ou-Repassa
 
 ## Introdução
