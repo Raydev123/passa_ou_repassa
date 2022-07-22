@@ -8,7 +8,7 @@
 //              Original   - Pedro Bertoleti
 // -------------------------------------------------------------|
 
-///Links ˙teis para revis„o de termos utilizados durante o programa:
+///Links √∫teis para revis√£o de termos utilizados durante o programa:
 /// https://www.embarcados.com.br/maquina-de-estado/
 /// https://www.kennethkuhn.com/electronics/debounce.c
 /// https://stackoverflow.com/questions/5256599/what-are-file-descriptors-explained-in-simple-terms
@@ -17,7 +17,8 @@
 /// https://pubs.opengroup.org/onlinepubs/009604599/functions/read.html
 /// https://pubs.opengroup.org/onlinepubs/007904975/functions/write.html
 /// https://pubs.opengroup.org/onlinepubs/007904875/functions/open.html
-
+/// https://man7.org/linux/man-pages/man3/usleep.3.html
+/// https://stackoverflow.com/questions/17167949/how-to-use-timer-in-c
 #include <stdlib.h>
 #include <stdio.h>
 #include <fcntl.h>
@@ -31,7 +32,7 @@
 #define SAMPLE_FREQUENCY    10
 #define MAXIMUM         (DEBOUNCE_TIME * SAMPLE_FREQUENCY)
 
-//GPIO Led/Botıes
+//GPIO Led/Bot√µes
 //Defina os Leds conforme as portas a serem utilizadas
 #define Led1 
 #define Led2
@@ -45,8 +46,8 @@ void (*PointerToFunction)(); // Pointer to the functions (states) of the state m
                              // It points to the function runs in the given time
 int Player1_Points;          // Collects points from Player 1 and represents the index of tempo_1
 int Player2_Points;          // Collects points from Player 2 and represents the index of tempo_2;
-int tempo_1[10];             //Armazena[10] o tempo que o jogador 1 demorou para apertar o bot„o
-int tempo_2[10];             //Armazena[10] o tempo que o jogador 2 demorou para apertar o bot„o
+int tempo_1[10];             //Armazena[10] o tempo que o jogador 1 demorou para apertar o bot√£o
+int tempo_2[10];             //Armazena[10] o tempo que o jogador 2 demorou para apertar o bot√£o
 
 // debounce integrator
 unsigned int integrator;     // Will range from 0 to the specified MAXIMUM
@@ -65,7 +66,7 @@ const char* get_path(char tipo[], int porta)
 {
     ///Recebe o "tipo" do get_path e a "porta" do I/O
     ///Tipos: "export","direction","edge","value"
-    ///Returns possÌveis:
+    ///Returns poss√≠veis:
     ///  "/sys/class/gpio/export"
     ///  "/sys/class/gpio/gpioXX/tipo",sendo os tipos: "direction","edge","value"
 
@@ -152,12 +153,12 @@ void configura_botao(int porta)
 void Starting_State(void)
 {
     ///Espera a entrada do Botao_Start, com uso de debounce code
-    ///Concluindo a leitura do Bot„o_Start, vai para o prÛximo estado:
+    ///Concluindo a leitura do Bot√£o_Start, vai para o pr√≥ximo estado:
     ///  PointerToFunction = Game_Running_State;
 
     char value;
     int fd;
-    // int n_value; //descomentar caso precise inverter os valores de input; o default È de input = 1 caso o bot„o esteja pressionado
+    // int n_value; //descomentar caso precise inverter os valores de input; o default √© de input = 1 caso o bot√£o esteja pressionado
     unsigned int input;       //
     unsigned int output;      
 
@@ -179,7 +180,7 @@ void Starting_State(void)
         }
     }
 
-    //Aqui È opcional, depende do output
+    //Aqui √© opcional, depende do output
     // Invert input 0 -> 1 and 1 -> 0
     //n_value = (int)value;
     // if(n_value == 0)
@@ -215,14 +216,14 @@ void Starting_State(void)
 void Game_Running_State(void)
 {
     /// Liga o Led de Play e espera pela entrada dos Botao1 e Botao2
-    /// Caso o bot„o tenha sido pressionado antes da largada, indica-se a queimada de largada;
+    /// Caso o bot√£o tenha sido pressionado antes da largada, indica-se a queimada de largada;
     /// Com o Botao acionado, leva ao proximo estado:
     ///     PointerToFunction = Player_X_Score_State;
 
     int fd;
     int pressed; //verifica se o botao foi pressionado pelo pressed = poll();
     struct pollfd poll_players[2]; //considerando 2 players
-    clock_t start,diff; //vari·vel para armazenar o tempo que levaram para apertar o botao
+    clock_t start,diff; //vari√°vel para armazenar o tempo que levaram para apertar o botao
 
     poll_players[0].fd = open(get_path("value", Botao1), O_RDONLY);
     poll_players[1].fd = open(get_path("value", Botao2), O_RDONLY);
@@ -232,7 +233,7 @@ void Game_Running_State(void)
     pressed = poll(poll_players, 2, 1); //poll rapido para ver a queimada de largada
 
     ///Caso algum dos jogadores tenha pressionado antes do tempo
-    ///o LED do respectivo jogador pisca com uma frequÍncia de 10Hz indicando a queimada de largada
+    ///o LED do respectivo jogador pisca com uma frequ√™ncia de 10Hz indicando a queimada de largada
     ///     retorna para o Starting_State
     if (pressed)
     {
@@ -261,9 +262,9 @@ void Game_Running_State(void)
     }
 
     desliga_led(0, Led_Start); //Liga o led do Start, indicando OK para os jogadores
-    start = clock();    //ComeÁa a amostragem de tempo
+    start = clock();    //Come√ßa a amostragem de tempo
 
-    pressed = poll(poll_players, 2, -1); //"-1" mostra a espera atÈ que algum dos botıes sejam pressionados
+    pressed = poll(poll_players, 2, -1); //"-1" mostra a espera at√© que algum dos bot√µes sejam pressionados
     if (pressed)
      {
         diff = 1000 * (clock() - start) / CLOCKS_PER_SEC; //Armazena o tempo, em ms, que levaram para apertar o botao 
@@ -304,11 +305,11 @@ void Player_2_Score_State(void)
 
 int main(int argc, char *argv[])
 {
-    /// Inicializa vari·veis globais em 0 e o PointerToFunction no estado inicial.
+    /// Inicializa vari√°veis globais em 0 e o PointerToFunction no estado inicial.
     /// Desliga o Led do Start
-    /// Configura o poll_gpio(poll para o bot„o do Start), usado no estado seguinte
+    /// Configura o poll_gpio(poll para o bot√£o do Start), usado no estado seguinte
     
-    //InicializaÁ„o de vari·veis globais e do PointerToFunction
+    //Inicializa√ß√£o de vari√°veis globais e do PointerToFunction
     Player1_Points = 0;
     Player2_Points = 0;
     integrator = 0;
@@ -321,7 +322,7 @@ int main(int argc, char *argv[])
     char aux_int[3]; //Auxiliar que armazena valores de int das portas gpio para string
 
 
-    //Configura o Botao_Start: Checa export,direction=in,edge=rising,fd = value(o fd È usado no poll_gpio.fd);
+    //Configura o Botao_Start: Checa export,direction=in,edge=rising,fd = value(o fd √© usado no poll_gpio.fd);
     configura_botao(Botao_Start);
 
     //Set no poll_gpio.fd para a entrada do Botao_Start
@@ -330,7 +331,7 @@ int main(int argc, char *argv[])
     poll_gpio.events = POLLPRI;
     poll_gpio.fd = fd;
 
-    //ConfiguraÁıes de botıes e leds
+    //Configura√ß√µes de bot√µes e leds
 
     configura_led(Led1);
     configura_led(Led2);
