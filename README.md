@@ -2,7 +2,7 @@ Trabalho MK 2022 - Sistemas Embarcados
 
 Eric Ryuta Nakao 10746922
 
-Guilherme H. S. Rosa 10873299
+Guilherme Henrique Santana Rosa 10873299
 
 Rayron Costa e Silva 10820741
 
