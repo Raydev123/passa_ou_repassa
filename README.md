@@ -14,8 +14,9 @@ No presente trabalho, tem-se como objetivo o desenvolvimento de um jogo realizad
 ### Funcionalidades do sistema:
 - Indicação visual do início do jogo
 - Indicação visual do primeiro botão pressionado
+- Indicação visual do reset da partida
 - Indicação visual da possibilidade de um dos botões serem apertados antes do botão de início ter sido pressionado
-- Dispensa do uso do cartão SD 
+- Dispensa do uso de um computador "host"
 
 ### Descrição da arquitetura
 
