@@ -21,15 +21,15 @@ No presente trabalho, tem-se como objetivo o desenvolvimento de um jogo realizad
 ### Funcionalidades do sistema:
 - Indicação visual do início do jogo
 - Indicação visual do primeiro botão pressionado
-- Indicação visual da possibilidade de um dos botões serem apertados antes do botão de início ter sido pressionado
+- Indicação visual de um dos botões terem sido pressionados antes da indicação de largada pelo Led de Inicio
+- Armazenamento da diferença de tempo entre a indicação de largada e o pressionar do botão pelo participante
 - Dispensa do uso de um computador "host"
 
 ### Descrição da arquitetura
 
 ![Image of Architecture](https://github.com/gcaurin/EmbeddedSystems-Aeronautics/blob/2021.2/projects-descriptions/Arquitetura.jpg)
   1. 3 Entradas - botões a serem pressionados (Início, participante/equipe 1 e participante/equipe 2)
-  2. 4 Saídas  - LEDs (Início, participante/equipe 1, participante/equipe 2 e "queima de largada")
-  3. 1 display para indicação do estado do jogo
+  2. 3 Saídas  - LEDs (Início, participante/equipe 1, participante/equipe 2)
 
 ### State Machine for the Software implementation of the Game
 ![MaquinadeEstado](https://user-images.githubusercontent.com/109768690/180353805-88a5c211-582f-4140-8271-7f50b2dc80a6.png)
