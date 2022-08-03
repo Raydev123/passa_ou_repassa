@@ -48,9 +48,10 @@ Foi feito possivel a simulacao do programa na maquina host para facilitar a prot
 - O input de botoes foi feito no programa botao_simulacao.c:
     - O botao_simulacao.c deve receber como argumento(argv) um fifo(ou similar) para input de dados
     > Exemplo:
-    > ./botao_simulacao fifo_exemplo (abrindo o programa com o fifo como argumento) 
     > 
-    > echo "comando" (sem aspas) > fifo_exemplo (input do comando no programa pelo fifo_exemplo)
+    >       ./botao_simulacao fifo_exemplo (abrindo o programa com o fifo como argumento) 
+    > 
+    >       echo "comando" (sem aspas) > fifo_exemplo (input do comando no programa pelo fifo_exemplo)
 - O "comando" indicado acima representa os comandos possiveis de serem passados para o botao_simulacao.c, sendo estes:
     - botao_x (indica que o jogador x pressionou e soltou o botao - uso normal do botao);
     - press_x (mostra que o jogador x manteve pressionado o botao - uso para verificar a queimada de largada);
