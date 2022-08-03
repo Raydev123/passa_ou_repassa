@@ -227,15 +227,48 @@ void Player_1_Score_State(void)
     ///  PointerToFunction = Starting_State;
 
     int fd;
+    char value_char[1] = "";
+    int value_int;
+    unsigned int output;      
     Player1_Points++;
     fprintf(stderr, "\n\n\t ----Player 1 Score State----\n");  
     fprintf(stderr, "\nLed do jogador 1 acionado");  
     fprintf(stderr, "\nPontos adicionados ao jogador 1");  
-    fd = open("/sys/class/gpio/gpio43/value",O_WRONLY);
+    fd = open("sys/class/gpio/gpio43/value",O_WRONLY);
     lseek(fd,0,SEEK_SET);
     write(fd,"0",1);
     close(fd);
-    PointerToFunction = Starting_State;
+    fprintf(stderr, "\nEsperando reset");
+    while(1)
+    {
+        fd = open("sys/class/gpio/gpio88/value",O_RDONLY);
+        lseek(fd,0,SEEK_SET);
+        read(fd,value_char,1);
+        close(fd);
+        value_int = atoi(value_char);
+        if (value_int == 0)
+        {
+            if (integrator > 0)
+                integrator--;
+        }
+        else if (integrator < MAXIMUM)
+            integrator++;
+
+        if (integrator == 0)
+            output = 0;
+        else if (integrator >= MAXIMUM)
+        {
+            output = 1;
+            integrator = MAXIMUM;  /* defensive code if integrator got corrupted */
+            break;
+        }
+
+    }
+    if (output == 1)
+    {
+        fprintf(stderr, "\nReset acionado");  
+        PointerToFunction = Starting_State;
+    }
 }
 
 void Player_2_Score_State(void)
@@ -244,17 +277,48 @@ void Player_2_Score_State(void)
     /// PointerToFunction = Starting_State;
 
     int fd;
+    char value_char[1] = "";
+    int value_int;
+    unsigned int output;      
     Player2_Points++;
     fprintf(stderr, "\n\n\t ----Player 2 Score State----\n");  
     fprintf(stderr, "\nLed do jogador 2 acionado");  
     fprintf(stderr, "\nPontos adicionados ao jogador 2");   
-    fd = open("/sys/class/gpio/gpio44/value",O_WRONLY);
+    fd = open("sys/class/gpio/gpio44/value",O_WRONLY);
     lseek(fd,0,SEEK_SET);
     write(fd,"0",1);
     close(fd);
-    PointerToFunction = Starting_State;
-}
+    fprintf(stderr, "\nEsperando reset");
+    while(1){
+        fd = open("sys/class/gpio/gpio88/value",O_RDONLY);
+        lseek(fd,0,SEEK_SET);
+        read(fd,value_char,1);
+        close(fd);
+        value_int = atoi(value_char);
+        if (value_int == 0)
+        {
+            if (integrator > 0)
+                integrator--;
+        }
+        else if (integrator < MAXIMUM)
+            integrator++;
 
+        if (integrator == 0)
+            output = 0;
+        else if (integrator >= MAXIMUM)
+        {
+            output = 1;
+            integrator = MAXIMUM;  /* defensive code if integrator got corrupted */
+            break;
+        }
+
+    }
+    if (output == 1)
+    {
+        fprintf(stderr, "\nReset acionado");  
+        PointerToFunction = Starting_State;
+    }
+}
 
 int main(int argc, char *argv[])
 {
