@@ -42,7 +42,7 @@ No presente trabalho, tem-se como objetivo o desenvolvimento de um jogo realizad
 ![MaquinadeEstado](https://github.com/guilh-0453/passa_ou_repassa/blob/main/State_Machine.png)
 
 
-### Simulacao na maquina host
+## Simulacao na maquina host
 
 Foi feito possivel a simulacao do programa na maquina host para facilitar a prototipagem do codigo main:
 - O input de botoes foi feito no programa botao_simulacao.c:
@@ -59,7 +59,7 @@ Foi feito possivel a simulacao do programa na maquina host para facilitar a prot
 - Dado o input de botoes pelo simulador, o programa altera seu estado atual, conforme a maquina de estados;
 - Obs: Para rodar o simulador junto do programa sao necessarias as pastas(sys/gpio/gpioXX/)
     
-Exemplo do programa rodando com o uso do simulador:
+###Exemplo do programa rodando com o uso do simulador:
     
 - Starting_State:
     - Mostra o placar atual;
@@ -79,7 +79,7 @@ Exemplo do programa rodando com o uso do simulador:
     
     ![image](https://user-images.githubusercontent.com/109694851/182677405-4c522f96-9477-481f-9df5-b826dc5aa9fe.png)
     
-Exemplo do programa com o jogador 1 queimando a largada:
+###Exemplo do programa com o jogador 1 queimando a largada:
     
 - Starting_State: Igual ao exemplo anterior;
     
