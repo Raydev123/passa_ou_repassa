@@ -188,36 +188,35 @@ void Game_Running_State(void)
 
     	while(1)
     	{
-        
-        	fd = open("/sys/class/gpio/gpio45/value",O_RDONLY);
-        	if(fd == -1) fprintf(stderr, "Erro leitura botao1");  
-        	lseek(fd,0,SEEK_SET);
-        	read(fd,value_char1,1);
-       		close(fd);
-        	value_int1 = atoi(value_char1);
-        	if(value_int1) 
-        	{   
-            fprintf(stderr, "\nPonto jogador 1");  
-            diff = 1000 * (clock() - start) / CLOCKS_PER_SEC; //Armazena o tempo, em ms, que levaram para apertar o botao 
-            tempo_1[Player1_Points] = (int)diff; //Armazena o tempo do Player_1
-            PointerToFunction = Player_1_Score_State;
-            break;
-        	}
+        fd = open("/sys/class/gpio/gpio45/value",O_RDONLY);
+        if(fd == -1) fprintf(stderr, "Erro leitura botao1");  
+        lseek(fd,0,SEEK_SET);
+        read(fd,value_char1,1);
+        close(fd);
+        value_int1 = atoi(value_char1);
+        if(value_int1) 
+        {   
+          fprintf(stderr, "\nPonto jogador 1");  
+          diff = 1000 * (clock() - start) / CLOCKS_PER_SEC; //Armazena o tempo, em ms, que levaram para apertar o botao 
+          tempo_1[Player1_Points] = (int)diff; //Armazena o tempo do Player_1
+          PointerToFunction = Player_1_Score_State;
+          break;
+        }
 
-        	fd = open("/sys/class/gpio/gpio46/value",O_RDONLY);
-        	if(fd == -1) fprintf(stderr, "Erro leitura botao2");  
-        	lseek(fd,0,SEEK_SET);
-        	read(fd,value_char2,1);
-        	close(fd);
-        	value_int2 = atoi(value_char2);
-        	if(value_int2) 
-        	{   
-            fprintf(stderr, "\nPonto jogador 2");  
-            diff = 1000 * (clock() - start) / CLOCKS_PER_SEC; //Armazena o tempo, em ms, que levaram para apertar o botao 
-            tempo_2[Player2_Points] = (int)diff; //Armazena o tempo do Player_2
-            PointerToFunction = Player_2_Score_State;
-            break;
-          }
+        fd = open("/sys/class/gpio/gpio46/value",O_RDONLY);
+        if(fd == -1) fprintf(stderr, "Erro leitura botao2");  
+        lseek(fd,0,SEEK_SET);
+        read(fd,value_char2,1);
+        close(fd);
+        value_int2 = atoi(value_char2);
+        if(value_int2) 
+        {   
+          fprintf(stderr, "\nPonto jogador 2");  
+          diff = 1000 * (clock() - start) / CLOCKS_PER_SEC; //Armazena o tempo, em ms, que levaram para apertar o botao 
+          tempo_2[Player2_Points] = (int)diff; //Armazena o tempo do Player_2
+          PointerToFunction = Player_2_Score_State;
+          break;
+        }
       }
     }
 }
