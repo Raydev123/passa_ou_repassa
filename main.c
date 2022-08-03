@@ -1,3 +1,13 @@
+// -------------------------------------------------------------|
+// Code developed for Toradex hardware
+//   +  Computer on Module COM - Colibri VF50
+//   +  Base Board  - Viola
+// -------------------------------------------------------------|
+// State Machine Code adapted from: 
+//           https://www.embarcados.com.br/maquina-de-estado/
+//              Original   - Pedro Bertoleti
+// -------------------------------------------------------------|
+
 ///Links possiveis para revisao de termos utilizados durante o programa:
 /// https://www.embarcados.com.br/maquina-de-estado/
 /// https://www.kennethkuhn.com/electronics/debounce.c
@@ -150,8 +160,8 @@ void Game_Running_State(void)
             close(fd);
             usleep(100000);
         }
-        fprintf(stderr, "\nVoltando para o Starting State"); 
-        PointerToFunction = Starting_State;
+        
+        PointerToFunction = Player_2_Score_State;
     }
     
     fd = open("sys/class/gpio/gpio46/value",O_RDONLY);
@@ -175,51 +185,52 @@ void Game_Running_State(void)
             close(fd);
             usleep(100000);
         }
-        fprintf(stderr, "\nVoltando para o Starting State"); 
-        PointerToFunction = Starting_State;
+        PointerToFunction = Player_1_Score_State;
     }
-    
-    //desliga_led(0, Led_Start); //Liga o led do Start, indicando OK para os jogadores
-    fd = open("sys/class/gpio/gpio89/value",O_WRONLY);
-    lseek(fd,0,SEEK_SET);
-    write(fd,"0",1);
-    close(fd);
-    fprintf(stderr, "\nLed Start ligado - Jogo comecou");  
-    start = clock();    //Comeca a amostragem de tempo
-
-    while(1)
+    if(value_int1 == value_int2)
     {
+    	//desliga_led(0, Led_Start); //Liga o led do Start, indicando OK para os jogadores
+    	fd = open("sys/class/gpio/gpio89/value",O_WRONLY);
+    	lseek(fd,0,SEEK_SET);
+    	write(fd,"0",1);
+    	close(fd);
+    	fprintf(stderr, "\nLed Start ligado - Jogo comecou");  
+    	start = clock();    //Comeca a amostragem de tempo
+
+    	while(1)
+    	{
         
-        fd = open("sys/class/gpio/gpio45/value",O_RDONLY);
-        if(fd == -1) fprintf(stderr, "Erro leitura botao1");  
-        lseek(fd,0,SEEK_SET);
-        read(fd,value_char1,1);
-        close(fd);
-        value_int1 = atoi(value_char1);
-        if(value_int1) 
-        {   
-            fprintf(stderr, "\nPonto jogador 1");  
-            diff = 1000 * (clock() - start) / CLOCKS_PER_SEC; //Armazena o tempo, em ms, que levaram para apertar o botao 
-            tempo_1[Player1_Points] = (int)diff; //Armazena o tempo do Player_1
-            PointerToFunction = Player_1_Score_State;
-            break;
-        }
+        	fd = open("sys/class/gpio/gpio45/value",O_RDONLY);
+        	if(fd == -1) fprintf(stderr, "Erro leitura botao1");  
+        	lseek(fd,0,SEEK_SET);
+        	read(fd,value_char1,1);
+       		close(fd);
+        	value_int1 = atoi(value_char1);
+        	if(value_int1) 
+        	{   
+            	fprintf(stderr, "\nPonto jogador 1");  
+            	diff = 1000 * (clock() - start) / CLOCKS_PER_SEC; //Armazena o tempo, em ms, que levaram para apertar o botao 
+            	tempo_1[Player1_Points] = (int)diff; //Armazena o tempo do Player_1
+            	PointerToFunction = Player_1_Score_State;
+            	break;
+        	}
 
-        fd = open("sys/class/gpio/gpio46/value",O_RDONLY);
-        if(fd == -1) fprintf(stderr, "Erro leitura botao2");  
-        lseek(fd,0,SEEK_SET);
-        read(fd,value_char2,1);
-        close(fd);
-        value_int2 = atoi(value_char2);
-        if(value_int2) 
-        {   
-            fprintf(stderr, "\nPonto jogador 2");  
-            diff = 1000 * (clock() - start) / CLOCKS_PER_SEC; //Armazena o tempo, em ms, que levaram para apertar o botao 
-            tempo_2[Player2_Points] = (int)diff; //Armazena o tempo do Player_2
-            PointerToFunction = Player_2_Score_State;
-            break;
+        	fd = open("sys/class/gpio/gpio46/value",O_RDONLY);
+        	if(fd == -1) fprintf(stderr, "Erro leitura botao2");  
+        	lseek(fd,0,SEEK_SET);
+        	read(fd,value_char2,1);
+        	close(fd);
+        	value_int2 = atoi(value_char2);
+        	if(value_int2) 
+        	{   
+            	fprintf(stderr, "\nPonto jogador 2");  
+            	diff = 1000 * (clock() - start) / CLOCKS_PER_SEC; //Armazena o tempo, em ms, que levaram para apertar o botao 
+            	tempo_2[Player2_Points] = (int)diff; //Armazena o tempo do Player_2
+            	PointerToFunction = Player_2_Score_State;
+            	break;
 
-        }
+        	}
+    	}
     }
 }
 
@@ -231,6 +242,7 @@ void Player_1_Score_State(void)
     int fd;
     Player1_Points++;
     fprintf(stderr, "\n\n\t ----Player 1 Score State----\n");  
+    fprintf(stderr, "\nLed do jogador 1 acionado");  
     fprintf(stderr, "\nPontos adicionados ao jogador 1");  
     fd = open("sys/class/gpio/gpio43/value",O_WRONLY);
     lseek(fd,0,SEEK_SET);
@@ -247,6 +259,7 @@ void Player_2_Score_State(void)
     int fd;
     Player2_Points++;
     fprintf(stderr, "\n\n\t ----Player 2 Score State----\n");  
+    fprintf(stderr, "\nLed do jogador 2 acionado");  
     fprintf(stderr, "\nPontos adicionados ao jogador 2");   
     fd = open("sys/class/gpio/gpio44/value",O_WRONLY);
     lseek(fd,0,SEEK_SET);
