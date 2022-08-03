@@ -267,7 +267,7 @@ int main(int argc, char *argv[])
                                         //Never forget to inform the initial state 
                                         //(otherwise, in this specific case, fatal error may occur/ hard fault).
 
-    //Configura o Botao_Start: Checa export,direction=in,edge=rising,fd = value(o fd ・usado no poll_gpio.fd);
+    //Configura o Botao_Start: Checa export,direction=in,edge=rising
 
     fd = open("/sys/class/gpio/export", O_WRONLY);
     write(fd,"88",2);
