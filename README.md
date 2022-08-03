@@ -25,12 +25,12 @@ No presente trabalho, tem-se como objetivo o desenvolvimento de um jogo realizad
 - Indicação visual do início do jogo com o Led do apresentador;
 - Indicação visual do primeiro botão pressionado com os Leds dos jogadores;
 - Indicação visual de um dos botões terem sido pressionados antes da indicação de largada pelo Led de Inicio:
-      Indica a queimada de largada pelo jogador. Nesse caso, o outro jogador recebe o ponto da rodada;
-      O jogo retorna ao estado inicial, esperando o apresentador apertar o botao;
+     -Indica a queimada de largada pelo jogador. Nesse caso, o outro jogador recebe o ponto da rodada;
+     -O jogo retorna ao estado inicial, esperando o apresentador apertar o botao;
 - Armazenamento da pontuacao dos jogadores:
-      A pontuacao de cada jogador fica armazenado na variavel PlayerX_Score;
+     -A pontuacao de cada jogador fica armazenado na variavel PlayerX_Score;
 - Armazenamento da diferenca de tempo entre a indicação de largada e o pressionar do botão pelo participante
-      De inicio, o armazenamento é dado por um array de 10 indices (pode ser alterado conforme necessidade do apresentador) que armazenam o tempo
+     -De inicio, o armazenamento é dado por um array de 10 indices (pode ser alterado conforme necessidade do apresentador) que armazenam o tempo
 
 ### Descrição da arquitetura 
 
