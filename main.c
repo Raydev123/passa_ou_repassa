@@ -1,13 +1,3 @@
-// -------------------------------------------------------------|
-// Code developed for Toradex hardware
-//   +  Computer on Module COM - Colibri VF50
-//   +  Base Board  - Viola
-// -------------------------------------------------------------|
-// State Machine Code adapted from: 
-//           https://www.embarcados.com.br/maquina-de-estado/
-//              Original   - Pedro Bertoleti
-// -------------------------------------------------------------|
-
 ///Links possiveis para revisao de termos utilizados durante o programa:
 /// https://www.embarcados.com.br/maquina-de-estado/
 /// https://www.kennethkuhn.com/electronics/debounce.c
