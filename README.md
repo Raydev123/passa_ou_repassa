@@ -15,11 +15,11 @@ No presente trabalho, tem-se como objetivo o desenvolvimento de um jogo realizad
 ## Arquitetura e componentes do Sistema
 
 - Cada jogador possui os seguintes:
-      Um botão para pressionar;
-      Um Led que indica que pontuou;
+    - Um botão para pressionar;
+    - Um Led que indica que pontuou;
 - O apresentador (quem aperta o botão) possui os seguintes:
-      Um botão para iniciar o jogo;
-      Um Led que indica o inicio do jogo;
+    - Um botão para iniciar o jogo;
+    - Um Led que indica o inicio do jogo;
 
 ### Funcionalidades do sistema:
 - Indicação visual do início do jogo com o Led do apresentador;
