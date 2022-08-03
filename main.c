@@ -65,19 +65,19 @@ void Starting_State(void)
     unsigned int output;      
 
     //Desligatodos os Leds  
-    fd = open("sys/class/gpio/gpio89/value",O_WRONLY);
+    fd = open("/sys/class/gpio/gpio89/value",O_WRONLY);
     write(fd,"1",1);
     close(fd);    
-    fd = open("sys/class/gpio/gpio43/value",O_WRONLY);
+    fd = open("/sys/class/gpio/gpio43/value",O_WRONLY);
     write(fd,"1",1);
     close(fd);
-    fd = open("sys/class/gpio/gpio44/value",O_WRONLY);
+    fd = open("/sys/class/gpio/gpio44/value",O_WRONLY);
     write(fd,"1",1);
     close(fd);
     fprintf(stderr, "\nLeds desligados");  
     //Espera o botao ser acionado
     while(1){
-        fd = open("sys/class/gpio/gpio88/value",O_RDONLY);
+        fd = open("/sys/class/gpio/gpio88/value",O_RDONLY);
         lseek(fd,0,SEEK_SET);
         read(fd,value_char,1);
         close(fd);
@@ -129,7 +129,7 @@ void Game_Running_State(void)
     ///     retorna para o Starting_State
 
     //get_value(botao1);
-    fd = open("sys/class/gpio/gpio45/value",O_RDONLY);
+    fd = open("/sys/class/gpio/gpio45/value",O_RDONLY);
     lseek(fd,0,SEEK_SET);
     read(fd,value_char1,1);
     close(fd);
@@ -139,12 +139,12 @@ void Game_Running_State(void)
         fprintf(stderr, "\nJogador 1 queimou");  
         for (int i = 0; i < 10; i++)
         {
-            fd = open("sys/class/gpio/gpio43/value",O_WRONLY);
+            fd = open("/sys/class/gpio/gpio43/value",O_WRONLY);
             lseek(fd,0,SEEK_SET);
             write(fd,"0",1);
             close(fd);
             usleep(100000);
-            fd = open("sys/class/gpio/gpio43/value",O_WRONLY);
+            fd = open("/sys/class/gpio/gpio43/value",O_WRONLY);
             lseek(fd,0,SEEK_SET);
             write(fd,"1",1);
             close(fd);
@@ -164,12 +164,12 @@ void Game_Running_State(void)
         fprintf(stderr, "\nJogador 2 queimou");  
         for (int i = 0; i < 10; i++)
         {
-            fd = open("sys/class/gpio/gpio44/value",O_WRONLY);
+            fd = open("/sys/class/gpio/gpio44/value",O_WRONLY);
             lseek(fd,0,SEEK_SET);
             write(fd,"0",1);
             close(fd);
             usleep(100000);
-            fd = open("sys/class/gpio/gpio44/value",O_WRONLY);
+            fd = open("/sys/class/gpio/gpio44/value",O_WRONLY);
             lseek(fd,0,SEEK_SET);
             write(fd,"1",1);
             close(fd);
@@ -180,7 +180,7 @@ void Game_Running_State(void)
     if(value_int1 == value_int2)
     {
     	//desliga_led(0, Led_Start); //Liga o led do Start, indicando OK para os jogadores
-    	fd = open("sys/class/gpio/gpio89/value",O_WRONLY);
+    	fd = open("/sys/class/gpio/gpio89/value",O_WRONLY);
     	lseek(fd,0,SEEK_SET);
     	write(fd,"0",1);
     	close(fd);
@@ -190,7 +190,7 @@ void Game_Running_State(void)
     	while(1)
     	{
         
-        	fd = open("sys/class/gpio/gpio45/value",O_RDONLY);
+        	fd = open("/sys/class/gpio/gpio45/value",O_RDONLY);
         	if(fd == -1) fprintf(stderr, "Erro leitura botao1");  
         	lseek(fd,0,SEEK_SET);
         	read(fd,value_char1,1);
@@ -205,7 +205,7 @@ void Game_Running_State(void)
             	break;
         	}
 
-        	fd = open("sys/class/gpio/gpio46/value",O_RDONLY);
+        	fd = open("/sys/class/gpio/gpio46/value",O_RDONLY);
         	if(fd == -1) fprintf(stderr, "Erro leitura botao2");  
         	lseek(fd,0,SEEK_SET);
         	read(fd,value_char2,1);
@@ -234,7 +234,7 @@ void Player_1_Score_State(void)
     fprintf(stderr, "\n\n\t ----Player 1 Score State----\n");  
     fprintf(stderr, "\nLed do jogador 1 acionado");  
     fprintf(stderr, "\nPontos adicionados ao jogador 1");  
-    fd = open("sys/class/gpio/gpio43/value",O_WRONLY);
+    fd = open("/sys/class/gpio/gpio43/value",O_WRONLY);
     lseek(fd,0,SEEK_SET);
     write(fd,"0",1);
     close(fd);
@@ -251,7 +251,7 @@ void Player_2_Score_State(void)
     fprintf(stderr, "\n\n\t ----Player 2 Score State----\n");  
     fprintf(stderr, "\nLed do jogador 2 acionado");  
     fprintf(stderr, "\nPontos adicionados ao jogador 2");   
-    fd = open("sys/class/gpio/gpio44/value",O_WRONLY);
+    fd = open("/sys/class/gpio/gpio44/value",O_WRONLY);
     lseek(fd,0,SEEK_SET);
     write(fd,"0",1);
     close(fd);
@@ -272,70 +272,70 @@ int main(int argc, char *argv[])
 
     //Configura o Botao_Start: Checa export,direction=in,edge=rising,fd = value(o fd ・usado no poll_gpio.fd);
 
-    fd = open("sys/class/gpio/export", O_WRONLY);
+    fd = open("/sys/class/gpio/export", O_WRONLY);
     write(fd,"88",2);
     close(fd);
 
-    fd = open("sys/class/gpio/gpio88/direction", O_WRONLY);
+    fd = open("/sys/class/gpio/gpio88/direction", O_WRONLY);
     write(fd, "in", 2);
     close(fd);
 
-    fd = open("sys/class/gpio/gpio88/edge", O_WRONLY);
+    fd = open("/sys/class/gpio/gpio88/edge", O_WRONLY);
     write(fd, "rising", 6); 
     close(fd);
     //Configuracoes de botoes e leds
 
     // configura_led(Led1);
-    fd = open("sys/class/gpio/export", O_WRONLY);
+    fd = open("/sys/class/gpio/export", O_WRONLY);
     write(fd,"43",2);
     close(fd);
 
-    fd = open("sys/class/gpio/gpio43/direction", O_WRONLY);
+    fd = open("/sys/class/gpio/gpio43/direction", O_WRONLY);
     write(fd, "out", 2);
     close(fd);
 
     // configura_led(Led2);
-    fd = open("sys/class/gpio/export", O_WRONLY);
+    fd = open("/sys/class/gpio/export", O_WRONLY);
     write(fd,"44",2);
     close(fd);
 
-    fd = open("sys/class/gpio/gpio44/direction", O_WRONLY);
+    fd = open("/sys/class/gpio/gpio44/direction", O_WRONLY);
     write(fd, "out", 2);
     close(fd);
 
 
     // configura_botao(Botao1);
-    fd = open("sys/class/gpio/export", O_WRONLY);
+    fd = open("/sys/class/gpio/export", O_WRONLY);
     write(fd,"45",2);
     close(fd);
 
-    fd = open("sys/class/gpio/gpio45/direction", O_WRONLY);
+    fd = open("/sys/class/gpio/gpio45/direction", O_WRONLY);
     write(fd, "in", 2);
     close(fd);
 
-    fd = open("sys/class/gpio/gpio45/edge", O_WRONLY);
+    fd = open("/sys/class/gpio/gpio45/edge", O_WRONLY);
     write(fd, "rising", 6); 
     close(fd);
 
     // configura_botao(Botao2);
-    fd = open("sys/class/gpio/export", O_WRONLY);
+    fd = open("/sys/class/gpio/export", O_WRONLY);
     write(fd,"46",2);
     close(fd);
 
-    fd = open("sys/class/gpio/gpio46/direction", O_WRONLY);
+    fd = open("/sys/class/gpio/gpio46/direction", O_WRONLY);
     write(fd, "in", 2);
     close(fd);
 
-    fd = open("sys/class/gpio/gpio46/edge", O_WRONLY);
+    fd = open("/sys/class/gpio/gpio46/edge", O_WRONLY);
     write(fd, "rising", 6); 
     close(fd);
 
     // configura_led(Led_Start);
-    fd = open("sys/class/gpio/export", O_WRONLY);
+    fd = open("/sys/class/gpio/export", O_WRONLY);
     write(fd,"89",2);
     close(fd);
 
-    fd = open("sys/class/gpio/gpio89/direction", O_WRONLY);
+    fd = open("/sys/class/gpio/gpio89/direction", O_WRONLY);
     write(fd, "out", 2);
     close(fd);
 
