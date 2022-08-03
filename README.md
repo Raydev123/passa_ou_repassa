@@ -22,10 +22,11 @@ No presente trabalho, tem-se como objetivo o desenvolvimento de um jogo realizad
     - Um Led que indica o inicio do jogo;
 
 ### Funcionalidades do sistema:
-- Indicação visual do início do jogo com o Led do apresentador;
-- Indicação visual do primeiro botão pressionado com os Leds dos jogadores;
+- Indicação visual do início do jogo, com o Led do apresentador;
+- Indicação visual do primeiro botão pressionado, com os Leds dos jogadores;
 - Indicação visual de um dos botões terem sido pressionados antes da indicação de largada pelo Led de Inicio:
-    - Indica a queimada de largada pelo jogador. Nesse caso, o outro jogador recebe o ponto da rodada;
+    - Indica a queimada de largada pelo jogador, piscando o led o jogador que queimou a largada. 
+    - O outro jogador recebe o ponto da rodada;
     - O jogo retorna ao estado inicial, esperando o apresentador apertar o botao;
 - Armazenamento da pontuacao dos jogadores;
     - A pontuacao de cada jogador fica armazenado na variavel PlayerX_Score;
@@ -59,39 +60,43 @@ Foi feito possivel a simulacao do programa na maquina host para facilitar a prot
 - Dado o input de botoes pelo simulador, o programa altera seu estado atual, conforme a maquina de estados;
 - Obs: Para rodar o simulador junto do programa sao necessarias as pastas(sys/gpio/gpioXX/)
     
-###Exemplo do programa rodando com o uso do simulador:
+## Exemplo do programa rodando com o uso do simulador:
     
-- Starting_State:
-    - Mostra o placar atual;
-    - Desliga os leds;
-    
+### Starting_State
+- Mostra o placar atual;
+- Desliga os leds;
+- Espera o botao do apresentador;
+- 
     ![image](https://user-images.githubusercontent.com/109694851/182676215-258c681b-be6d-4b34-a8b7-d60d8af89cf9.png)
     
-- Game_Running_State, após o apresentador apertar o botao (echo botao_start > fifo_exemplo)
-    - Liga o Led do apresentador, mostrando que o jogo comecou;
+### Game_Running_State, após o apresentador apertar o botao (echo botao_start > fifo_exemplo)
+- Liga o Led do apresentador, mostrando que o jogo comecou;
+- Espera o botao de um dos jogadores;
     
     ![image](https://user-images.githubusercontent.com/109694851/182676804-0e77d4aa-19f5-4eed-a785-490d857023e5.png)
     
-- Player_X_State, após um dos jogadores apertar o botão (echo botao_x > fifo_exemplo)
-    - Liga o Led do jogador x, mostrando que pontuou;
-    - Adiciona ponto ao jogador x;
-    - Retorna ao Starting_State, aguardando o apresentador apertar o botao;
+### Player_X_State, após um dos jogadores apertar o botão (echo botao_x > fifo_exemplo)
+- Liga o Led do jogador x, mostrando que pontuou;
+- Adiciona ponto ao jogador x;
+- Retorna ao Starting_State, aguardando o apresentador apertar o botao;
     
     ![image](https://user-images.githubusercontent.com/109694851/182677405-4c522f96-9477-481f-9df5-b826dc5aa9fe.png)
     
-###Exemplo do programa com o jogador 1 queimando a largada:
+## Exemplo do programa com o jogador 1 queimando a largada:
     
-- Starting_State: Igual ao exemplo anterior;
+### Starting_State
+- Igual ao exemplo anterior;
     
-- Game_Running_State:
-    - Antes do apresentador apertar o botao, o jogador 1 já havia apertado (echo press_1 > fifo_exemplo);
-    - Como o jogador apertou o botao antes do apresentador, houve a queimada de largada do jogador 1;
+### Game_Running_State
+- Antes do apresentador apertar o botao, o jogador 1 já havia apertado (echo press_1 > fifo_exemplo);
+- Como o jogador apertou o botao antes do apresentador, houve a queimada de largada do jogador 1;
+- Vai para o Player_State do outro jogador (no caso, Player_2_State);
     
         ![image](https://user-images.githubusercontent.com/109694851/182679749-2d9a0745-c7cb-4365-8588-c500c7fbe798.png)
         
-- Player_2_State, após a queimada de largada pelo jogador 1
-    - O jogador 2 recebe a pontuacao da rodada;
-    - O jogo retorna ao Starting_State;
+### Player_2_State, após a queimada de largada pelo jogador 1
+- O jogador 2 recebe a pontuacao da rodada;
+- O jogo retorna ao Starting_State;
     
         ![image](https://user-images.githubusercontent.com/109694851/182679400-1e295a19-2697-44b3-a6db-6d283f8dc40f.png)
 
