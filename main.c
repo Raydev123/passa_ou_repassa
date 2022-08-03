@@ -234,14 +234,14 @@ void Player_1_Score_State(void)
     fprintf(stderr, "\n\n\t ----Player 1 Score State----\n");  
     fprintf(stderr, "\nLed do jogador 1 acionado");  
     fprintf(stderr, "\nPontos adicionados ao jogador 1");  
-    fd = open("sys/class/gpio/gpio43/value",O_WRONLY);
+    fd = open("/sys/class/gpio/gpio43/value",O_WRONLY);
     lseek(fd,0,SEEK_SET);
     write(fd,"0",1);
     close(fd);
     fprintf(stderr, "\nEsperando reset");
     while(1)
     {
-        fd = open("sys/class/gpio/gpio88/value",O_RDONLY);
+        fd = open("/sys/class/gpio/gpio88/value",O_RDONLY);
         lseek(fd,0,SEEK_SET);
         read(fd,value_char,1);
         close(fd);
@@ -284,13 +284,13 @@ void Player_2_Score_State(void)
     fprintf(stderr, "\n\n\t ----Player 2 Score State----\n");  
     fprintf(stderr, "\nLed do jogador 2 acionado");  
     fprintf(stderr, "\nPontos adicionados ao jogador 2");   
-    fd = open("sys/class/gpio/gpio44/value",O_WRONLY);
+    fd = open("/sys/class/gpio/gpio44/value",O_WRONLY);
     lseek(fd,0,SEEK_SET);
     write(fd,"0",1);
     close(fd);
     fprintf(stderr, "\nEsperando reset");
     while(1){
-        fd = open("sys/class/gpio/gpio88/value",O_RDONLY);
+        fd = open("/sys/class/gpio/gpio88/value",O_RDONLY);
         lseek(fd,0,SEEK_SET);
         read(fd,value_char,1);
         close(fd);
