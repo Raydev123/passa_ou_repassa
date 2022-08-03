@@ -117,7 +117,6 @@ void Game_Running_State(void)
     ///     PointerToFunction = Player_X_Score_State;
 
     int fd;
-    int pressed; //verifica se o botao foi pressionado pelo pressed = poll();
     clock_t start,diff; //variavel para armazenar o tempo que levaram para apertar o botao
     char value_char1[1] ="";
     char value_char2[1] ="";
