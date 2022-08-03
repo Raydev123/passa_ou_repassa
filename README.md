@@ -92,13 +92,13 @@ Foi feito possivel a simulacao do programa na maquina host para facilitar a prot
 - Como o jogador apertou o botao antes do apresentador, houve a queimada de largada do jogador 1;
 - Vai para o Player_State do outro jogador (no caso, Player_2_State);
     
-        ![image](https://user-images.githubusercontent.com/109694851/182679749-2d9a0745-c7cb-4365-8588-c500c7fbe798.png)
+     ![image](https://user-images.githubusercontent.com/109694851/182679749-2d9a0745-c7cb-4365-8588-c500c7fbe798.png)
         
 ### Player_2_State, após a queimada de largada pelo jogador 1
 - O jogador 2 recebe a pontuacao da rodada;
 - O jogo retorna ao Starting_State;
     
-        ![image](https://user-images.githubusercontent.com/109694851/182679400-1e295a19-2697-44b3-a6db-6d283f8dc40f.png)
+     ![image](https://user-images.githubusercontent.com/109694851/182679400-1e295a19-2697-44b3-a6db-6d283f8dc40f.png)
 
     
     
