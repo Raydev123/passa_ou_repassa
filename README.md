@@ -66,7 +66,7 @@ Foi feito possivel a simulacao do programa na maquina host para facilitar a prot
 - Mostra o placar atual;
 - Desliga os leds;
 - Espera o botao do apresentador;
-- 
+
     ![image](https://user-images.githubusercontent.com/109694851/182676215-258c681b-be6d-4b34-a8b7-d60d8af89cf9.png)
     
 ### Game_Running_State, após o apresentador apertar o botao (echo botao_start > fifo_exemplo)
